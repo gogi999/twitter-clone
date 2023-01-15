@@ -1,3 +1,4 @@
+import Tweet from '../models/tweet.model.js';
 import User from '../models/user.model.js';
 import { handleError } from '../utils/error.js';
 
@@ -35,6 +36,7 @@ export const deleteUser = async (req, res, next) => {
     if (req.params.id === req.user.id) {
         try {
             await User.findByIdAndDelete(req.params.id);
+            await Tweet.remove({ userId: req.params.id });
 
             res.status(200).json('User deleted!');
         } catch (err) {
@@ -66,6 +68,32 @@ export const follow = async (req, res, next) => {
         }
 
         res.status(200).json('You have started to follow this user!');
+    } catch (err) {
+        next(err);
+    } 
+};
+
+export const unfollow = async (req, res, next) => {
+    try {
+        // User
+        const user = await User.findById(req.params.id);
+
+        // Current user
+        const currentUser = await User.findById(req.body.id);
+
+        if (currentUser.following.includes(req.params.id)) {
+            await user.updateOne({
+                $pull: { followers: req.body.id }
+            });
+
+            await currentUser.updateOne({
+                $pull: { following: req.params.id }
+            });
+        } else {
+            res.status(403).json('You are not following this user!');
+        }
+
+        res.status(200).json('Unfollowing the user!');
     } catch (err) {
         next(err);
     } 
