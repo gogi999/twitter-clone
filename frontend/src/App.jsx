@@ -8,6 +8,7 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 
+import Navbar from './components/Navbar/Navbar';
 import Error from './pages/Error/Error';
 import Explore from './pages/Explore/Explore';
 import Home from './pages/Home/Home';
@@ -17,7 +18,7 @@ import Signin from './pages/Signin/Signin';
 const Layout = () => {
     return (
         <div className="md:w-8/12 mx-auto">
-            <h1>Navbar</h1>
+            <Navbar />
             <Outlet></Outlet>
         </div>
     );
