@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ExploreTweets from '../../components/ExploreTweets/ExploreTweets';
 import LeftSidebar from '../../components/LeftSidebar/LeftSidebar';
 import RightSidebar from '../../components/RightSidebar/RightSidebar';
 
@@ -10,7 +11,7 @@ const Explore = () => {
                 <LeftSidebar />
             </div>
             <div className="col-span-2 border-x-2 border-t-slate-800 px-6">
-
+                <ExploreTweets />
             </div>
             <div className="px-6">
                 <RightSidebar />

@@ -1,13 +1,20 @@
 import React from 'react';
 
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import HomeIcon from '@mui/icons-material/Home';
 import PersonIcon from '@mui/icons-material/Person';
 import TagIcon from '@mui/icons-material/Tag';
 
+import { signout } from '../../redux/userSlice';
+
 const LeftSidebar = () => {
-    const handleLogout = () => {}
+    const dispatch = useDispatch();
+
+    const handleLogout = () => {
+        dispatch(signout());
+    }
 
     return (
         <div className="flex flex-col h-full md:h-[90vh] justify-between mr-6">

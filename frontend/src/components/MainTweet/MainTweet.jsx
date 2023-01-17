@@ -1,5 +1,7 @@
 import React from 'react';
 
+import TimelineTweet from '../TimelineTweet/TimelineTweet';
+
 const MainTweet = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -25,7 +27,7 @@ const MainTweet = () => {
                     Tweet
                 </button>
             </form>
-            Main Tweet
+            <TimelineTweet />
         </div>
     );
 }
