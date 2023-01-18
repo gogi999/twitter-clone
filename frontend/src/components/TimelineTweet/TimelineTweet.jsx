@@ -25,8 +25,6 @@ const TimelineTweet = () => {
         fetchData();
     }, [currentUser._id]);
 
-    console.log('Timeline', timeline);
-
     return (
         <div className="mt-6">
             {timeline && timeline.map((tweet) => {

@@ -1,6 +1,9 @@
 import React from 'react';
 
-import { useDispatch } from 'react-redux';
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import HomeIcon from '@mui/icons-material/Home';
@@ -11,6 +14,7 @@ import { signout } from '../../redux/userSlice';
 
 const LeftSidebar = () => {
     const dispatch = useDispatch();
+    const { currentUser } = useSelector((state) => state.user);
 
     const handleLogout = () => {
         dispatch(signout());
@@ -31,7 +35,7 @@ const LeftSidebar = () => {
                         <p>Explore</p>
                     </div>
                 </Link>
-                <Link to="/profile/:id">
+                <Link to={`/profile/${currentUser._id}`}>
                     <div className="flex items-center space-x-6 px-2 py-2 hover:bg-slate-200 rounded-full cursor-pointer">
                         <PersonIcon fontSize="large" />
                         <p>Profile</p>
