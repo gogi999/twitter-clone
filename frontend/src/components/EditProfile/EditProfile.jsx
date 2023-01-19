@@ -3,6 +3,7 @@ import React, {
   useState,
 } from 'react';
 
+import axios from 'axios';
 import {
   getDownloadURL,
   getStorage,
@@ -13,14 +14,20 @@ import {
   useDispatch,
   useSelector,
 } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import app from '../../firebase';
+import {
+  changeProfile,
+  signout,
+} from '../../redux/userSlice';
 
 const EditProfile = ({ setOpen }) => {
     const [img, setImg] = useState(null);
     const [imgUploadProgress, setImgUploadProgress] = useState(0);
     const dispatch = useDispatch();
     const { currentUser } = useSelector((state) => state.user);
+    const navigate = useNavigate();
 
     const uploadImg = (file) => {
         const storage = getStorage(app);
@@ -49,10 +56,10 @@ const EditProfile = ({ setOpen }) => {
             (error) => {},
             () => {
                 // Upload completed successfully, now we can get the download URL
-                getDownloadURL(uploadTask.snapshot.ref).then(/*async*/ (downloadURL) => {
-                    /*try {
+                getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+                    try {
                         const updateProfile = await axios.put(`/users/${currentUser._id}`, {
-                        profilePicture: downloadURL,
+                            profilePicture: downloadURL,
                         });
             
                         console.log(updateProfile);
@@ -60,20 +67,26 @@ const EditProfile = ({ setOpen }) => {
                         console.log(error);
                     }
             
-                    console.log("downloaded " + downloadURL);
-                    dispatch(changeProfile(downloadURL));*/
-                    console.log('File available at', downloadURL);
+                    console.log('downloaded ' + downloadURL);
+                    dispatch(changeProfile(downloadURL));
                 });
             }
         );
     }
 
-    const handleDelete = () => {
-
+    const handleDelete = async () => {
+        try {
+            await axios.delete(`/users/${currentUser._id}`);
+            dispatch(signout());
+            navigate('/signin');
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     useEffect(() => {
         img && uploadImg(img);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [img]);
 
     return (
